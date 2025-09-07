@@ -56,6 +56,10 @@ export const getOrders = async (user: User): Promise<Order[]> => {
   return getOrdersMatchingPattern(`orders:${user.id}:*`);
 };
 
+export const getOrdersByUserId = async (userId: string): Promise<Order[]> => {
+  return getOrdersMatchingPattern(`orders:${userId}:*`);
+};
+
 export const getOrdersForAllUsers = async (): Promise<Order[]> => {
   return getOrdersMatchingPattern(`orders:*`);
 };

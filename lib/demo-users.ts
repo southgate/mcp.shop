@@ -10,6 +10,7 @@ export interface DemoUser {
   email: string;
   firstName: string;
   lastName: string;
+  isAdmin?: boolean;
 }
 
 // Demo users for testing
@@ -37,6 +38,15 @@ export const demoUsers: DemoUser[] = [
     email: "bob@mcp.shop",
     firstName: "Bob",
     lastName: "Johnson",
+  },
+  {
+    id: "admin_01",
+    username: "admin",
+    password: "admin123",
+    email: "admin@mcp.shop",
+    firstName: "Admin",
+    lastName: "User",
+    isAdmin: true,
   },
 ];
 
