@@ -1,9 +1,38 @@
-import { withAuth } from "@workos-inc/authkit-nextjs";
 import { getOrders, Order } from "@/lib/orders";
 import { Instructions } from "@/components/instructions";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function OrdersPage() {
-  const { user } = await withAuth({ ensureSignedIn: true });
+  // Check for demo session
+  let user = null;
+  
+  try {
+    const cookieStore = await cookies();
+    const demoSession = cookieStore.get('demo-session');
+    
+    if (demoSession) {
+      const sessionData = JSON.parse(demoSession.value);
+      
+      // Check if session is not expired
+      if (!sessionData.exp || Date.now() < sessionData.exp) {
+        user = {
+          userId: sessionData.userId,
+          firstName: sessionData.firstName,
+          lastName: sessionData.lastName,
+          email: sessionData.email,
+        };
+      }
+    }
+  } catch (e) {
+    // Session parsing error
+  }
+  
+  // Redirect to login if not authenticated
+  if (!user) {
+    redirect('/login');
+  }
+  
   const orders = await getOrders(user);
 
   return (

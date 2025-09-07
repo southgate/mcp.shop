@@ -1,10 +1,30 @@
-import { getSignInUrl, signOut, withAuth } from "@workos-inc/authkit-nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { cookies } from 'next/headers';
 
 export async function Navbar() {
-  const { user } = await withAuth();
+  // Check for demo session
+  let user = null;
+  
+  try {
+    const cookieStore = await cookies();
+    const demoSession = cookieStore.get('demo-session');
+    
+    if (demoSession) {
+      const sessionData = JSON.parse(demoSession.value);
+      
+      // Check if session is not expired
+      if (!sessionData.exp || Date.now() < sessionData.exp) {
+        user = {
+          firstName: sessionData.firstName,
+          email: sessionData.email,
+        };
+      }
+    }
+  } catch (e) {
+    // Session parsing error, user remains null
+  }
 
   return (
     <nav className="flex items-center justify-between p-4 text-neutral-400">
@@ -27,7 +47,9 @@ export async function Navbar() {
               className="inline"
               action={async () => {
                 "use server";
-                await signOut();
+                const { cookies } = await import('next/headers');
+                const cookieStore = await cookies();
+                cookieStore.delete('demo-session');
               }}
             >
               <button className="underline" type="submit">
@@ -36,7 +58,7 @@ export async function Navbar() {
             </form>
           </div>
         ) : (
-          <Link href={await getSignInUrl()}>Sign in</Link>
+          <Link href="/login">Sign in</Link>
         )}
       </div>
     </nav>
