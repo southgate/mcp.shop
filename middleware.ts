@@ -8,5 +8,5 @@ export default authkitMiddleware({
 });
 
 export const config = {
-  matcher: ["/", "/orders", "/product/:handle*", "/admin/:path*"],
+  matcher: ["/", "/orders", "/product/:handle*", "/admin/:path*", "/login", "/standalone-login"],
 };

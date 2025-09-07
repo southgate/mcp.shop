@@ -1,10 +1,10 @@
 import { getOrders, placeOrder } from "@/lib/orders";
 import { products } from "@/lib/products";
-import { withAuthkit } from "@/lib/with-authkit";
+import { withAuthkitStandalone } from "@/lib/with-authkit-standalone";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 
-const handler = withAuthkit((request, auth) =>
+const handler = withAuthkitStandalone((request, auth) =>
   createMcpHandler(
     (server) => {
       server.tool(
