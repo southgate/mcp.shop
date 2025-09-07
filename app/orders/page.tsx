@@ -1,4 +1,5 @@
-import { getOrders, Order } from "@/lib/orders";
+import { getOrdersByUserId, getOrdersForAllUsers, Order } from "@/lib/orders";
+import { demoUserStore } from "@/lib/demo-users";
 import { Instructions } from "@/components/instructions";
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -33,11 +34,18 @@ export default async function OrdersPage() {
     redirect('/login');
   }
   
-  const orders = await getOrders(user);
+  // Check if user is admin
+  const demoUser = demoUserStore.getUserById(user.userId);
+  const isAdmin = demoUser?.isAdmin || false;
+  
+  // Get orders - all orders for admin, user's orders for regular users
+  const orders = isAdmin ? await getOrdersForAllUsers() : await getOrdersByUserId(user.userId);
 
   return (
     <div className="mx-auto max-w-[--breakpoint-2xl] px-4 py-10">
-      <h1 className="mb-8 text-4xl font-medium">Your Orders</h1>
+      <h1 className="mb-8 text-4xl font-medium">
+        {isAdmin ? "All Orders (Admin)" : "Your Orders"}
+      </h1>
       {orders.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {orders.map((order) => (
