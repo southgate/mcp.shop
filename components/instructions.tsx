@@ -138,7 +138,7 @@ export const Instructions = ({ openButtonLabel }: InstructionsProps) => {
                             </p>
                             <div className="flex md:flex-row flex-col justify-left items-center gap-4">
                               <a
-                                href="cursor://anysphere.cursor-deeplink/mcp/install?name=mcp.shop&config=eyJ1cmwiOiJodHRwczovL21jcC5zaG9wL21jcCJ9"
+                                href="cursor://anysphere.cursor-deeplink/mcp/install?name=mcp.shop-standalone&config=eyJ1cmwiOiJodHRwczovL21jcC1zaG9wLWV0YS52ZXJjZWwuYXBwL21jcCJ9Cg=="
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-block"
