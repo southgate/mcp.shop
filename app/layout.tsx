@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MCP Shop",
+  title: "MCP Shop — Standalone",
   description: "The latest and greatest MCP merch",
   openGraph: {
     images: [
