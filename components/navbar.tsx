@@ -22,7 +22,7 @@ export async function Navbar() {
         };
       }
     }
-  } catch (e) {
+  } catch {
     // Session parsing error, user remains null
   }
 

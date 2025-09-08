@@ -1,6 +1,7 @@
-import { getOrders, placeOrder } from "@/lib/orders";
+import { getOrdersByUserId, placeOrder } from "@/lib/orders";
 import { products } from "@/lib/products";
 import { withAuthkitStandalone } from "@/lib/with-authkit-standalone";
+import { User } from "@/lib/with-authkit";
 import { createMcpHandler } from "mcp-handler";
 import { z } from "zod";
 
@@ -49,7 +50,14 @@ const handler = withAuthkitStandalone((request, auth) =>
         },
         async (args) => {
           try {
-            const order = await placeOrder(args, auth.user);
+            // Convert DemoUser to User format expected by placeOrder
+            const userForOrder = {
+              id: auth.user.id,
+              firstName: auth.user.firstName,
+              lastName: auth.user.lastName,
+              email: auth.user.email,
+            } as User; // Type assertion since we only need these fields
+            const order = await placeOrder(args, userForOrder);
             return {
               content: [
                 {
@@ -83,7 +91,7 @@ const handler = withAuthkitStandalone((request, auth) =>
           "(The user should contact WorkOS instead).",
         async () => {
           try {
-            const orders = await getOrders(auth.user);
+            const orders = await getOrdersByUserId(auth.user.id);
             return {
               content: [
                 {

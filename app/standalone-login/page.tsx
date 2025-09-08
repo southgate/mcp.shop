@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
@@ -13,7 +13,7 @@ import Image from 'next/image';
  * 3. User authenticates with our custom username/password system
  * 4. We call AuthKit's completion API to finish the OAuth flow
  */
-export default function StandaloneLoginPage() {
+function StandaloneLoginForm() {
   const searchParams = useSearchParams();
   const externalAuthId = searchParams.get('external_auth_id');
   
@@ -150,5 +150,13 @@ export default function StandaloneLoginPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function StandaloneLoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <StandaloneLoginForm />
+    </Suspense>
   );
 }
