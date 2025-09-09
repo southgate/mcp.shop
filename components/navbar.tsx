@@ -31,7 +31,23 @@ export async function Navbar() {
       <Link className="flex" href="/">
         <Image alt="MCP Shop logo" src="/logo.png" height={40} width={40} />
         <div className="flex w-full items-center font-bold text-lg pl-1">
-          mcp.shop
+          mcp.shop{" "}
+          <span className="relative ml-1 inline-flex">
+            {"Standalone Connect".split("").map((char, index) => (
+              <span
+                key={index}
+                className="inline-block animate-pulse"
+                style={{
+                  color: '#afa9ff',
+                  animationDelay: `${index * 0.1}s`,
+                  animationDuration: '2s',
+                  animationIterationCount: 'infinite'
+                }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+          </span>
         </div>
       </Link>
       <div>
